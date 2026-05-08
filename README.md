@@ -2,7 +2,7 @@
 
 <div align="center">
   
-<img width="1365" height="767" alt="image" src="https://github.com/user-attachments/assets/374a77bf-cfb6-4ad5-a214-6bfb71775fc1" />
+<img width="1365" height="767" alt="image" src="https://github.com/user-attachments/assets/a8f0935d-bc12-4e5e-897d-5af468aa3cf1" />
 
 
 **A high-performance, visually stunning personal portfolio built with pure HTML, CSS & Vanilla JS.**
@@ -19,7 +19,7 @@
 ## 📸 Preview
 
 ### Hero Section
-<img width="1365" height="767" alt="image" src="https://github.com/user-attachments/assets/9a2413a2-edda-4522-a027-42630d2623df" />
+<img width="1365" height="767" alt="image" src="https://github.com/user-attachments/assets/a68fcd32-203c-405e-96a5-a8c849289f69" />
 
 ### Skills & Proficiency
 <img width="1365" height="767" alt="image" src="https://github.com/user-attachments/assets/cd2aa420-b9a4-4029-907e-291c50758f35" />
