@@ -2099,7 +2099,7 @@ document.documentElement.classList.add('is-loading');
 
 /* ══════════════════════════════════════════════════════════════════
    CERTIFICATES — data driven.
-   Drop the image files into the /certs/ folder next to index.html
+   Drop the image files into the ./ folder next to index.html
    using EXACTLY the file names in `img` below and they appear here.
    ══════════════════════════════════════════════════════════════════ */
 const CERT_GROUPS = [
@@ -2108,7 +2108,7 @@ const CERT_GROUPS = [
     note: 'Coursera · Google Career Certificates',
     items: [
       {
-        img:'./certs/google-ux-design-professional.jpg',
+        img:'../google-ux-design-professional.jpg',
         kind:'Professional Certificate', issuer:'Google',
         title:'Google <span class="it">UX Design</span>',
         date:'Aug 2, 2026', id:'FFF6A26S91X6',
@@ -2117,35 +2117,35 @@ const CERT_GROUPS = [
         desc:'Eight Google-developed courses covering the complete UX process: empathising with users, defining pain points, ideating solutions, wireframing, high-fidelity prototyping in Figma and usability testing.',
         courses:['Foundations of User Experience (UX) Design','Start the UX Design Process: Empathize, Define, and Ideate','Build Wireframes and Low-Fidelity Prototypes','Conduct UX Research and Test Early Concepts','Create High-Fidelity Designs and Prototypes in Figma','Build Dynamic User Interfaces (UI) for Websites','Design a User Experience for Social Good &amp; Prepare for Jobs','Accelerate Your Job Search with AI']
       },
-      { img:'./certs/ux-01-foundations-ux-design.jpg', kind:'Course Certificate', issuer:'Google',
+      { img:'../ux-01-foundations-ux-design.jpg', kind:'Course Certificate', issuer:'Google',
         title:'Foundations of <span class="it">User Experience (UX) Design</span>', date:'Jul 8, 2026', id:'UDC43HAA35G5',
         link:'https://coursera.org/verify/UDC43HAA35G5', count:1, countLabel:'Course',
         desc:'Course 1 of the Google UX Design Professional Certificate — the fundamentals of UX, common job responsibilities, design thinking and the end-to-end design process.' },
-      { img:'./certs/ux-02-empathize-define-ideate.jpg', kind:'Course Certificate', issuer:'Google',
+      { img:'../ux-02-empathize-define-ideate.jpg', kind:'Course Certificate', issuer:'Google',
         title:'Start the UX Design Process: <span class="it">Empathize, Define, Ideate</span>', date:'Jul 13, 2026', id:'VL56370RGWM3',
         link:'https://coursera.org/verify/VL56370RGWM3', count:1, countLabel:'Course',
         desc:'Course 2 — empathising with users, building personas and user stories, defining problem statements and ideating a wide range of design solutions.' },
-      { img:'./certs/ux-03-wireframes-low-fidelity.jpg', kind:'Course Certificate', issuer:'Google',
+      { img:'../ux-03-wireframes-low-fidelity.jpg', kind:'Course Certificate', issuer:'Google',
         title:'Build <span class="it">Wireframes and Low-Fidelity Prototypes</span>', date:'Jul 14, 2026', id:'IQTUMW5NCA12',
         link:'https://coursera.org/verify/IQTUMW5NCA12', count:1, countLabel:'Course',
         desc:'Course 3 — turning research into paper and digital wireframes, information architecture and clickable low-fidelity prototypes.' },
-      { img:'./certs/ux-04-ux-research-test-concepts.jpg', kind:'Course Certificate', issuer:'Google',
+      { img:'../ux-04-ux-research-test-concepts.jpg', kind:'Course Certificate', issuer:'Google',
         title:'Conduct <span class="it">UX Research</span> and Test Early Concepts', date:'Jul 16, 2026', id:'JYVFNMOPVUPV',
         link:'https://coursera.org/verify/JYVFNMOPVUPV', count:1, countLabel:'Course',
         desc:'Course 4 — planning and running usability studies, ethical research practice, and synthesising findings into actionable design changes.' },
-      { img:'./certs/ux-05-high-fidelity-figma.jpg', kind:'Course Certificate', issuer:'Google',
+      { img:'../ux-05-high-fidelity-figma.jpg', kind:'Course Certificate', issuer:'Google',
         title:'Create <span class="it">High-Fidelity Designs</span> and Prototypes in Figma', date:'Jul 18, 2026', id:'JIPTVXKC36IS',
         link:'https://coursera.org/verify/JIPTVXKC36IS', count:1, countLabel:'Course',
         desc:'Course 5 — mockups, design systems and interactive high-fidelity prototypes built and tested in Figma.' },
-      { img:'./certs/ux-06-dynamic-ui-websites.jpg', kind:'Course Certificate', issuer:'Google',
+      { img:'../ux-06-dynamic-ui-websites.jpg', kind:'Course Certificate', issuer:'Google',
         title:'Build <span class="it">Dynamic User Interfaces (UI)</span> for Websites', date:'Jul 30, 2026', id:'OUWKEN4TAQSJ',
         link:'https://coursera.org/verify/OUWKEN4TAQSJ', count:1, countLabel:'Course',
         desc:'Course 6 — responsive web layouts, grids and breakpoints, and designing dynamic interfaces that adapt across devices.' },
-      { img:'./certs/ux-07-social-good-prepare-jobs.jpg', kind:'Course Certificate', issuer:'Google',
+      { img:'../ux-07-social-good-prepare-jobs.jpg', kind:'Course Certificate', issuer:'Google',
         title:'Design a <span class="it">User Experience for Social Good</span>', date:'Jul 31, 2026', id:'Q2QYNHM94W1U',
         link:'https://coursera.org/verify/Q2QYNHM94W1U', count:1, countLabel:'Course',
         desc:'Course 7 — an end-to-end social-good case study taken from research through to a polished portfolio-ready deliverable.' },
-      { img:'./certs/ux-08-job-search-ai.jpg', kind:'Course Certificate', issuer:'Google',
+      { img:'../ux-08-job-search-ai.jpg', kind:'Course Certificate', issuer:'Google',
         title:'Accelerate Your <span class="it">Job Search with AI</span>', date:'Aug 2, 2026', id:'9QFSN509AMBG',
         link:'https://coursera.org/verify/9QFSN509AMBG', count:1, countLabel:'Course',
         desc:'Course 8 — AI-assisted job search workflows: tailoring resumes, preparing for interviews and researching roles and companies with AI tools.' }
@@ -2155,24 +2155,24 @@ const CERT_GROUPS = [
     heading: 'Google <span class="it">Prompting Essentials</span> Specialization',
     note: 'Coursera · Google',
     items: [
-      { img:'./certs/google-prompting-essentials.jpg', kind:'Specialization Certificate', issuer:'Google',
+      { img:'../google-prompting-essentials.jpg', kind:'Specialization Certificate', issuer:'Google',
         title:'Google <span class="it">Prompting Essentials</span>', date:'Aug 11, 2026', id:'29G8O9K1148K',
         link:'https://coursera.org/verify/specialization/29G8O9K1148K', count:4, countLabel:'Courses',
         desc:'Four hands-on courses on designing effective prompts and applying advanced prompting techniques to complete complex tasks, analyse data and summarise information with AI.',
         courses:['Start Writing Prompts like a Pro','Design Prompts for Everyday Work Tasks','Speed Up Data Analysis and Presentation Building','Use AI as a Creative or Expert Partner'] },
-      { img:'./certs/pe-01-writing-prompts-like-a-pro.jpg', kind:'Course Certificate', issuer:'Google',
+      { img:'../pe-01-writing-prompts-like-a-pro.jpg', kind:'Course Certificate', issuer:'Google',
         title:'Start Writing <span class="it">Prompts like a Pro</span>', date:'Aug 3, 2026', id:'9840YXFB4M48',
         link:'https://coursera.org/verify/9840YXFB4M48', count:1, countLabel:'Course',
         desc:'The five-step prompting framework, writing clear task-and-context prompts and iterating toward reliable AI output.' },
-      { img:'./certs/pe-02-prompts-everyday-work-tasks.jpg', kind:'Course Certificate', issuer:'Google',
+      { img:'../pe-02-prompts-everyday-work-tasks.jpg', kind:'Course Certificate', issuer:'Google',
         title:'Design Prompts for <span class="it">Everyday Work Tasks</span>', date:'Aug 11, 2026', id:'LI0H2A0XSQCQ',
         link:'https://coursera.org/verify/LI0H2A0XSQCQ', count:1, countLabel:'Course',
         desc:'Applying prompting to daily work: drafting, summarising long documents and building repeatable prompt templates.' },
-      { img:'./certs/pe-03-data-analysis-presentations.jpg', kind:'Course Certificate', issuer:'Google',
+      { img:'../pe-03-data-analysis-presentations.jpg', kind:'Course Certificate', issuer:'Google',
         title:'Speed Up <span class="it">Data Analysis</span> and Presentation Building', date:'Aug 11, 2026', id:'94I0NV4KH7DD',
         link:'https://coursera.org/verify/94I0NV4KH7DD', count:1, countLabel:'Course',
         desc:'Using AI to explore datasets, surface insights and assemble presentation-ready narratives fast.' },
-      { img:'./certs/pe-04-ai-creative-expert-partner.jpg', kind:'Course Certificate', issuer:'Google',
+      { img:'../pe-04-ai-creative-expert-partner.jpg', kind:'Course Certificate', issuer:'Google',
         title:'Use AI as a <span class="it">Creative or Expert Partner</span>', date:'Aug 11, 2026', id:'2K175PADOYJA',
         link:'https://coursera.org/verify/2K175PADOYJA', count:1, countLabel:'Course',
         desc:'Advanced techniques — prompt chaining, personas and multimodal prompting — to use AI as a collaborator rather than a tool.' }
