@@ -194,6 +194,9 @@ section{position:relative;padding:130px 0;z-index:2}
 .portrait-placeholder::before{content:'';width:40%;aspect-ratio:1;border-radius:50%;background:linear-gradient(135deg,rgba(167,139,250,.45),rgba(240,171,252,.35));border:1.5px dashed rgba(255,255,255,.2)}
 .portrait-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;z-index:2;border-radius:inherit}
 .portrait-photo+.portrait-placeholder{display:none}
+.portrait-gl{position:absolute;inset:0;width:100%;height:100%;z-index:2;border-radius:inherit;opacity:0;transition:opacity .6s ease;pointer-events:none}
+.portrait-gl.is-ready{opacity:1}
+@media(hover:none) and (pointer:coarse){.portrait-gl{display:none!important}}
 .portrait-info{position:absolute;bottom:18px;left:18px;right:18px;padding:14px 18px;background:rgba(8,6,20,.88);backdrop-filter:blur(20px);border:1px solid var(--border-strong);border-radius:7px;transform:translateZ(40px);z-index:4}
 .portrait-info-row{display:flex;justify-content:space-between;align-items:center;gap:14px;font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-mute);font-family:var(--mono)}
 .portrait-info-row span{flex:0 0 auto}
@@ -1020,9 +1023,10 @@ img.nav-logo{border-radius:50%;background:linear-gradient(135deg,var(--primary),
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16"><circle cx="12" cy="12" r="2"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/></svg>
           <span style="font-size:8px">DEV</span>
         </div>
-        <div class="portrait-img">
+        <div class="portrait-img" id="portraitImgFX">
           <!-- ▼▼▼ REPLACE THE src BELOW WITH YOUR PHOTO PATH/URL ▼▼▼ -->
-          <img src="./dp-Photoroom.png" alt="Muhammad Shozab" class="portrait-photo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <img src="./dp-Photoroom.png" data-hover="./dp-Photoroom-hover.png" alt="Muhammad Shozab" class="portrait-photo" id="portraitPhoto" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <canvas class="portrait-gl" id="portraitGL" aria-hidden="true"></canvas>
           <div class="portrait-placeholder"><span></span></div>
         </div>
         <div class="portrait-info">
@@ -1614,7 +1618,7 @@ img.nav-logo{border-radius:50%;background:linear-gradient(135deg,var(--primary),
       <div class="xp-num">02</div>
       <div class="xp-frame">
         <div class="xp-img logo-white">
-          <img src="https://media.licdn.com/dms/image/v2/D4D0BAQH0mh0jO6eN-g/company-logo_200_200/company-logo_200_200/0/1714480507605/zamstudiosllc_logo?e=1788393600&v=beta&t=ATVYfMJazY13cRIjB4ht9VmjgbCFDQYiYGMcB8gZO80" alt="ZAM Studios logo">
+          <img src="https://zamstudios.com/wp-content/uploads/2026/03/Zamlogo-removebg-preview.png" alt="ZAM Studios logo">
         </div>
       </div>
       <div class="xp-info">
@@ -1653,11 +1657,24 @@ img.nav-logo{border-radius:50%;background:linear-gradient(135deg,var(--primary),
 
 
 
+<!-- ═══════════════════════════════ CERTIFICATIONS ═══════════════════════════════ -->
+<section id="certifications" style="padding-top:0">
+  <div class="container">
+    <div class="reveal">
+      <div class="sec-label">01 · Certifications</div>
+      <h2 class="sec-title">Verified <span class="it">credentials</span>.</h2>
+      <p class="sec-sub">Every certificate unrolls like a scroll as you reach it — the details follow underneath.</p>
+    </div>
+    <div id="certRoot"></div>
+  </div>
+</section>
+
+
 <!-- ═══════════════════════════════ CAPABILITIES ═══════════════════════ -->
 <section id="capabilities">
   <div class="container">
     <div class="reveal">
-      <div class="sec-label">01 · Capabilities</div>
+      <div class="sec-label">02 · Capabilities</div>
       <h2 class="sec-title">What I do, <span class="it">expertly</span>.</h2>
       <p class="sec-sub">From full-stack engineering to deep SEO architecture, a complete approach to digital products that perform, rank, and delight.</p>
     </div>
@@ -1761,23 +1778,6 @@ img.nav-logo{border-radius:50%;background:linear-gradient(135deg,var(--primary),
     </div>
   </div>
 </section>
-
-
-<!-- ═══════════════════════════════ CERTIFICATIONS ═══════════════════════════════ -->
-
-
-<section id="certifications" style="padding-top:0">
-  <div class="container">
-    <div class="reveal">
-      <div class="sec-label">03 · Certifications</div>
-      <h2 class="sec-title">Verified <span class="it">credentials</span>.</h2>
-      <p class="sec-sub">Every certificate unrolls like a scroll as you reach it — the details follow underneath.</p>
-    </div>
-    <div id="certRoot"></div>
-  </div>
-</section>
-
-
 
 
 
@@ -2993,6 +2993,155 @@ window.addEventListener('scroll',()=>{
     requestAnimationFrame(tick);
   }
   tick();
+})();
+
+/* ════════════════ HERO PORTRAIT — WebGL ripple/tilt shader ════════════════ */
+(function(){
+  var isCoarse = window.matchMedia('(hover:none) and (pointer:coarse)').matches;
+  var container = document.getElementById('portraitImgFX');
+  var canvas    = document.getElementById('portraitGL');
+  var img       = document.getElementById('portraitPhoto');
+  if (isCoarse || !container || !canvas || !img || typeof THREE === 'undefined' || typeof gsap === 'undefined') return;
+
+  function FigureFX(scene, onReady){
+    this.$image   = img;
+    this.container = container;
+    this.scene    = scene;
+    this.onReady  = onReady;
+    this.loader   = new THREE.TextureLoader();
+    this.sizes    = new THREE.Vector2(0,0);
+    this.mouse    = new THREE.Vector2(0,0);
+    var self = this;
+    this.loader.setCrossOrigin('anonymous');
+    this.image = this.loader.load(this.$image.currentSrc || this.$image.src, function(){ self.ready(); });
+    this.hover = this.loader.load(this.$image.dataset.hover || self.$image.src);
+    this.container.addEventListener('pointerenter', function(){ self.hovering = true; });
+    this.container.addEventListener('pointerleave', function(){ self.hovering = false; self.onLeave(); });
+    window.addEventListener('pointermove', function(e){ if (self.hovering) self.onMove(e); });
+  }
+  FigureFX.prototype.ready = function(){
+    this.getSizes();
+    this.createMesh();
+    this.onReady();
+  };
+  FigureFX.prototype.getSizes = function(){
+    var r = this.container.getBoundingClientRect();
+    this.rect = r;
+    this.sizes.set(r.width, r.height);
+  };
+  FigureFX.prototype.createMesh = function(){
+    this.uniforms = {
+      u_image:     { value: this.image },
+      u_imagehover:{ value: this.hover },
+      u_mouse:     { value: this.mouse },
+      u_time:      { value: 0 },
+      u_res:       { value: new THREE.Vector2(this.sizes.x, this.sizes.y) }
+    };
+    this.geometry = new THREE.PlaneGeometry(1,1,1,1);
+    this.material = new THREE.ShaderMaterial({
+      uniforms: this.uniforms,
+      vertexShader: "varying vec2 v_uv;\nvoid main(){ v_uv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }",
+      fragmentShader:
+        "uniform vec2 u_mouse;\nuniform vec2 u_res;\nuniform sampler2D u_image;\nuniform sampler2D u_imagehover;\nuniform float u_time;\nvarying vec2 v_uv;\n" +
+        "float circle(in vec2 st,in float _radius,in float blurriness){ vec2 dist=st; return 1.-smoothstep(_radius-(_radius*blurriness),_radius+(_radius*blurriness),dot(dist,dist)*4.0); }\n" +
+        "vec3 mod289(vec3 x){ return x-floor(x*(1.0/289.0))*289.0; }\n" +
+        "vec4 mod289(vec4 x){ return x-floor(x*(1.0/289.0))*289.0; }\n" +
+        "vec4 permute(vec4 x){ return mod289(((x*34.0)+1.0)*x); }\n" +
+        "vec4 taylorInvSqrt(vec4 r){ return 1.79284291400159-0.85373472095314*r; }\n" +
+        "float snoise3(vec3 v){\n" +
+        "  const vec2 C=vec2(1.0/6.0,1.0/3.0); const vec4 D=vec4(0.0,0.5,1.0,2.0);\n" +
+        "  vec3 i=floor(v+dot(v,C.yyy)); vec3 x0=v-i+dot(i,C.xxx);\n" +
+        "  vec3 g=step(x0.yzx,x0.xyz); vec3 l=1.0-g; vec3 i1=min(g.xyz,l.zxy); vec3 i2=max(g.xyz,l.zxy);\n" +
+        "  vec3 x1=x0-i1+C.xxx; vec3 x2=x0-i2+C.yyy; vec3 x3=x0-D.yyy;\n" +
+        "  i=mod289(i);\n" +
+        "  vec4 p=permute(permute(permute(i.z+vec4(0.0,i1.z,i2.z,1.0))+i.y+vec4(0.0,i1.y,i2.y,1.0))+i.x+vec4(0.0,i1.x,i2.x,1.0));\n" +
+        "  float n_=0.142857142857; vec3 ns=n_*D.wyz-D.xzx;\n" +
+        "  vec4 j=p-49.0*floor(p*ns.z*ns.z);\n" +
+        "  vec4 x_=floor(j*ns.z); vec4 y_=floor(j-7.0*x_);\n" +
+        "  vec4 x=x_*ns.x+ns.yyyy; vec4 y=y_*ns.x+ns.yyyy; vec4 h=1.0-abs(x)-abs(y);\n" +
+        "  vec4 b0=vec4(x.xy,y.xy); vec4 b1=vec4(x.zw,y.zw);\n" +
+        "  vec4 s0=floor(b0)*2.0+1.0; vec4 s1=floor(b1)*2.0+1.0; vec4 sh=-step(h,vec4(0.0));\n" +
+        "  vec4 a0=b0.xzyw+s0.xzyw*sh.xxyy; vec4 a1=b1.xzyw+s1.xzyw*sh.zzww;\n" +
+        "  vec3 p0=vec3(a0.xy,h.x); vec3 p1=vec3(a0.zw,h.y); vec3 p2=vec3(a1.xy,h.z); vec3 p3=vec3(a1.zw,h.w);\n" +
+        "  vec4 norm=taylorInvSqrt(vec4(dot(p0,p0),dot(p1,p1),dot(p2,p2),dot(p3,p3)));\n" +
+        "  p0*=norm.x; p1*=norm.y; p2*=norm.z; p3*=norm.w;\n" +
+        "  vec4 m=max(0.6-vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)),0.0); m=m*m;\n" +
+        "  return 42.0*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));\n" +
+        "}\n" +
+        "void main(){\n" +
+        "  vec2 res=u_res*PR;\n" +
+        "  vec2 st=gl_FragCoord.xy/res.xy-vec2(0.5);\n" +
+        "  st.y*=u_res.y/u_res.x;\n" +
+        "  vec2 mouse=u_mouse*-0.5;\n" +
+        "  vec2 circlePos=st+mouse;\n" +
+        "  float c=circle(circlePos,0.15,2.)*2.5;\n" +
+        "  float offx=v_uv.x+sin(v_uv.y+u_time*.1);\n" +
+        "  float offy=v_uv.y-u_time*0.1-cos(u_time*.001)*.01;\n" +
+        "  float n=snoise3(vec3(offx,offy,u_time*.1)*8.)-1.;\n" +
+        "  float finalMask=smoothstep(0.4,0.5,n+pow(c,2.));\n" +
+        "  vec4 image=texture2D(u_image,v_uv);\n" +
+        "  vec4 hover=texture2D(u_imagehover,v_uv);\n" +
+        "  vec4 finalImage=mix(image,hover,finalMask);\n" +
+        "  gl_FragColor=finalImage;\n" +
+        "}",
+      defines: { PR: (window.devicePixelRatio||1).toFixed(1) }
+    });
+    this.mesh = new THREE.Mesh(this.geometry, this.material);
+    this.mesh.scale.set(this.sizes.x, this.sizes.y, 1);
+    this.scene.add(this.mesh);
+  };
+  FigureFX.prototype.onMove = function(e){
+    var r = this.rect || this.container.getBoundingClientRect();
+    var x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+    gsap.to(this.mouse, { duration:0.5, x: x*2-1, y: -y*2+1 });
+    if (this.mesh){
+      gsap.to(this.mesh.rotation, { duration:0.5, x: 0.3*-this.mouse.y, y: this.mouse.x*(Math.PI/6) });
+    }
+  };
+  FigureFX.prototype.onLeave = function(){
+    if (this.mesh){ gsap.to(this.mesh.rotation, { duration:0.6, x:0, y:0, ease:'power2.out' }); }
+    gsap.to(this.mouse, { duration:0.6, x:0, y:0 });
+  };
+  FigureFX.prototype.update = function(){ this.uniforms.u_time.value += 0.01; };
+
+  var Stage = function(){
+    this.container = canvas;
+    this.scene = new THREE.Scene();
+    this.renderer = new THREE.WebGLRenderer({ canvas: this.container, alpha: true, antialias: true });
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
+    var self = this;
+    this.figure = new FigureFX(this.scene, function(){ self.onReady(); });
+    this.resize();
+    window.addEventListener('resize', function(){ self.resize(); });
+  };
+  Stage.prototype.resize = function(){
+    var r = container.getBoundingClientRect();
+    if (!r.width || !r.height) return;
+    this.renderer.setSize(r.width, r.height, false);
+    var fov = (2*Math.atan(r.height/2/800)*180)/Math.PI;
+    this.camera = new THREE.PerspectiveCamera(fov, r.width/r.height, 1, 2000);
+    this.camera.position.set(0,0,800);
+    if (this.figure){
+      this.figure.getSizes();
+      if (this.figure.mesh){
+        this.figure.mesh.scale.set(this.figure.sizes.x, this.figure.sizes.y, 1);
+        this.figure.uniforms.u_res.value.set(this.figure.sizes.x, this.figure.sizes.y);
+      }
+    }
+  };
+  Stage.prototype.onReady = function(){
+    canvas.classList.add('is-ready');
+    img.style.opacity = 0;
+    this.update();
+  };
+  Stage.prototype.update = function(){
+    var self = this;
+    requestAnimationFrame(function(){ self.update(); });
+    if (this.figure) this.figure.update();
+    if (this.camera) this.renderer.render(this.scene, this.camera);
+  };
+
+  try { new Stage(); } catch(err){ /* WebGL unavailable — plain photo stays visible */ }
 })();
 
   </script>
