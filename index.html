@@ -183,30 +183,41 @@ section{position:relative;padding:130px 0;z-index:2}
 .btn-glow:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(124,92,255,.6)}
 .btn svg{width:14px;height:14px;flex-shrink:0}
 
-/* Portrait card */
-.portrait-wrap{position:relative;perspective:1400px}
-@media(max-width:1100px){.portrait-wrap{max-width:360px;margin:0 auto}}
-.portrait-card{position:relative;width:100%;aspect-ratio:4/5;max-width:460px;margin:0 auto;border-radius:8px;overflow:hidden;background:linear-gradient(135deg,rgba(124,92,255,.2),rgba(240,171,252,.12));border:1px solid var(--border-strong);transform-style:preserve-3d;transition:transform .4s cubic-bezier(.2,.9,.3,1.2);box-shadow:0 40px 100px rgba(124,92,255,.2),inset 0 0 0 1px rgba(255,255,255,.04)}
-.portrait-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.16),transparent 50%);opacity:0;transition:opacity .3s;z-index:3;pointer-events:none}
-.portrait-card:hover::before{opacity:1}
-.portrait-img{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;background:radial-gradient(circle at 50% 30%,rgba(167,139,250,.35),transparent 60%),linear-gradient(180deg,#1a0f33,#0a0815)}
-.portrait-placeholder{width:76%;height:88%;border-radius:50% 50% 0 0/35% 35% 0 0;position:relative;display:flex;align-items:flex-start;justify-content:center;padding-top:17%;background:linear-gradient(180deg,transparent,rgba(124,92,255,.12) 60%,rgba(240,171,252,.2));border:1.5px dashed rgba(167,139,250,.25)}
-.portrait-placeholder::before{content:'';width:40%;aspect-ratio:1;border-radius:50%;background:linear-gradient(135deg,rgba(167,139,250,.45),rgba(240,171,252,.35));border:1.5px dashed rgba(255,255,255,.2)}
-.portrait-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;z-index:2;border-radius:inherit}
+/* Portrait card — editorial profile object */
+.portrait-wrap{position:relative;perspective:1500px;isolation:isolate;padding:24px 22px 42px}
+.portrait-wrap::after{content:'';position:absolute;left:17%;right:17%;bottom:8px;height:34px;border-radius:50%;background:rgba(167,139,250,.2);filter:blur(25px);transform:rotateX(72deg);opacity:.7;transition:transform .7s cubic-bezier(.16,1,.3,1),opacity .5s}
+@media(max-width:1100px){.portrait-wrap{max-width:420px;margin:0 auto}}
+.portrait-card{--rx:0deg;--ry:0deg;--mx:50%;--my:45%;position:relative;width:100%;aspect-ratio:4/5;max-width:440px;margin:0 auto;border:1px solid rgba(255,255,255,.15);border-radius:5px;background:linear-gradient(150deg,rgba(19,15,38,.96),rgba(8,7,18,.98));transform-style:preserve-3d;transform:rotateX(var(--rx)) rotateY(var(--ry));transition:transform .15s ease-out,box-shadow .7s cubic-bezier(.16,1,.3,1),border-color .45s;box-shadow:0 34px 90px rgba(0,0,0,.5),-12px 16px 0 rgba(124,92,255,.09);will-change:transform}
+.portrait-card::before{content:'';position:absolute;inset:10px;border:1px solid rgba(255,255,255,.08);border-radius:2px;z-index:8;pointer-events:none;transform:translateZ(52px);transition:inset .7s cubic-bezier(.16,1,.3,1),border-color .4s}
+.portrait-card::after{content:'';position:absolute;inset:0;z-index:12;border-radius:inherit;background:linear-gradient(110deg,transparent 24%,rgba(255,255,255,.16) 43%,rgba(167,139,250,.1) 50%,transparent 64%);background-size:260% 100%;background-position:120% 0;opacity:0;pointer-events:none;mix-blend-mode:screen;transition:background-position .9s cubic-bezier(.16,1,.3,1),opacity .3s}
+.portrait-card:hover{border-color:rgba(167,139,250,.48);box-shadow:0 56px 120px rgba(0,0,0,.62),-22px 28px 0 rgba(124,92,255,.13),0 0 60px rgba(167,139,250,.12)}
+.portrait-card:hover::before{inset:6px;border-color:rgba(255,255,255,.22)}
+.portrait-card:hover::after{background-position:-35% 0;opacity:.9}
+.portrait-wrap:has(.portrait-card:hover)::after{transform:rotateX(72deg) scale(1.35);opacity:1}
+.portrait-index{position:absolute;top:25px;left:25px;z-index:14;font:500 10px/1 var(--mono);letter-spacing:2px;color:var(--text-mute);transform:translateZ(82px);transition:transform .7s cubic-bezier(.16,1,.3,1),color .4s}
+.portrait-role{position:absolute;top:50px;left:25px;z-index:14;font:500 clamp(27px,3vw,42px)/.92 var(--serif);font-style:italic;color:var(--text);transform:translateZ(92px);transition:transform .75s cubic-bezier(.16,1,.3,1)}
+.portrait-role span{display:block;color:var(--primary)}
+.portrait-card:hover .portrait-index{transform:translateZ(142px) translateY(-4px);color:var(--text)}
+.portrait-card:hover .portrait-role{transform:translateZ(164px) translateY(-5px)}
+.portrait-frame{position:absolute;inset:0;border-radius:inherit;overflow:hidden;transform-style:preserve-3d;background:radial-gradient(circle at var(--mx) var(--my),rgba(167,139,250,.14),transparent 32%),linear-gradient(160deg,rgba(124,92,255,.07),transparent 46%)}
+.portrait-frame::before{content:'';position:absolute;width:68%;aspect-ratio:1;left:16%;top:24%;border:1px solid rgba(167,139,250,.2);border-radius:50%;z-index:1;box-shadow:0 0 0 18px rgba(167,139,250,.025),inset 0 0 50px rgba(124,92,255,.08);transform:translateZ(16px);transition:transform .85s cubic-bezier(.16,1,.3,1),border-color .5s,box-shadow .5s}
+.portrait-card:hover .portrait-frame::before{transform:translateZ(78px) scale(1.08);border-color:rgba(167,139,250,.5);box-shadow:0 0 0 24px rgba(167,139,250,.035),0 0 55px rgba(124,92,255,.2),inset 0 0 60px rgba(124,92,255,.12)}
+.portrait-img{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;border-radius:inherit;transform-style:preserve-3d}
+.portrait-img::before{content:'';position:absolute;left:9%;right:9%;bottom:24%;height:1px;background:linear-gradient(90deg,transparent,var(--primary),var(--accent),transparent);z-index:4;transform:translateZ(48px) scaleX(.4);opacity:.5;transition:transform .8s cubic-bezier(.16,1,.3,1),opacity .4s}
+.portrait-card:hover .portrait-img::before{transform:translateZ(124px) scaleX(1);opacity:1}
+.portrait-placeholder{width:72%;height:82%;margin-bottom:8%;border-radius:50% 50% 0 0/35% 35% 0 0;position:relative;display:flex;align-items:flex-start;justify-content:center;padding-top:17%;background:linear-gradient(180deg,transparent,rgba(124,92,255,.1));border:1px dashed rgba(167,139,250,.25)}
+.portrait-placeholder::before{content:'';width:40%;aspect-ratio:1;border-radius:50%;background:linear-gradient(135deg,rgba(167,139,250,.35),rgba(240,171,252,.25));border:1px dashed rgba(255,255,255,.18)}
+.portrait-photo{position:absolute;inset:auto 2% -1%;width:96%;height:88%;object-fit:contain;object-position:center bottom;z-index:3;filter:grayscale(.18) contrast(1.05) drop-shadow(0 25px 28px rgba(0,0,0,.55));transform:translate3d(0,0,42px) scale(.95);transform-origin:center bottom;transition:transform .82s cubic-bezier(.16,1,.3,1),filter .55s;will-change:transform}
+.portrait-card:hover .portrait-photo{transform:translate3d(calc((var(--mx) - 50%) * -.04),-3.5%,148px) scale(1.065);filter:grayscale(0) contrast(1.08) drop-shadow(0 42px 34px rgba(0,0,0,.7)) drop-shadow(0 0 16px rgba(167,139,250,.22))}
 .portrait-photo+.portrait-placeholder{display:none}
-.portrait-gl{position:absolute;inset:0;width:100%;height:100%;z-index:2;border-radius:inherit;opacity:0;transition:opacity .6s ease;pointer-events:none}
-.portrait-gl.is-ready{opacity:1}
-@media(hover:none) and (pointer:coarse){.portrait-gl{display:none!important}}
-.portrait-info{position:absolute;bottom:18px;left:18px;right:18px;padding:14px 18px;background:rgba(8,6,20,.88);backdrop-filter:blur(20px);border:1px solid var(--border-strong);border-radius:7px;transform:translateZ(40px);z-index:4}
-.portrait-info-row{display:flex;justify-content:space-between;align-items:center;gap:14px;font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-mute);font-family:var(--mono)}
-.portrait-info-row span{flex:0 0 auto}
-.portrait-info-row strong{color:var(--text);font-weight:600;letter-spacing:.3px;text-transform:none;font-size:12px;font-family:var(--sans);line-height:1.25;text-align:right;min-width:0;overflow-wrap:anywhere}
-.portrait-info-row+.portrait-info-row{margin-top:7px;padding-top:7px;border-top:1px solid var(--border)}
-.portrait-deco{position:absolute;width:76px;height:76px;border:1px solid var(--border-strong);border-radius:50%;background:rgba(10,8,20,.8);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10.5px;color:var(--primary);transform:translateZ(60px);z-index:5;letter-spacing:1px}
-.portrait-deco.tl{top:-22px;left:-22px;animation:floatY 6s ease-in-out infinite}
-.portrait-deco.br{bottom:-22px;right:-22px;animation:floatY 6s ease-in-out infinite reverse}
-.portrait-deco.tr{top:-22px;right:-22px;width:60px;height:60px;animation:floatY 7s ease-in-out infinite 1s;font-size:9px;flex-direction:column;gap:2px;border-color:rgba(34,211,160,.3);color:var(--green)}
-@keyframes floatY{0%,100%{transform:translateZ(60px) translateY(0)}50%{transform:translateZ(60px) translateY(-8px)}}
+.portrait-scan{position:absolute;inset:0;z-index:5;opacity:.1;background:repeating-linear-gradient(0deg,transparent 0 6px,rgba(255,255,255,.03) 7px);transform:translateZ(80px);pointer-events:none;transition:opacity .4s}.portrait-card:hover .portrait-scan{opacity:.3}
+.portrait-location{position:absolute;left:24px;right:24px;bottom:24px;z-index:14;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;transform:translateZ(96px);transition:transform .75s cubic-bezier(.16,1,.3,1)}
+.portrait-location strong{display:block;margin-bottom:5px;font-size:13px;color:var(--text);letter-spacing:0}.portrait-location span{display:block;font:400 9px/1.45 var(--mono);letter-spacing:1.2px;text-transform:uppercase;color:var(--text-mute)}
+.portrait-scroll{writing-mode:vertical-rl;transform:rotate(180deg);font:500 8px/1 var(--mono)!important;letter-spacing:1.6px!important;color:var(--primary)!important}
+.portrait-card:hover .portrait-location{transform:translateZ(170px) translateY(-7px)}
+.portrait-edge{position:absolute;right:-13px;top:22%;height:56%;width:26px;border:1px solid rgba(167,139,250,.28);border-left:0;background:rgba(10,8,20,.8);transform:translateZ(-12px) rotateY(78deg);transform-origin:left center;z-index:-1}
+@media(hover:none) and (pointer:coarse){.portrait-card,.portrait-photo,.portrait-location,.portrait-index,.portrait-role{transform:none!important}.portrait-photo{inset:auto 2% 0;width:96%;height:88%}}
+@media(prefers-reduced-motion:reduce){.portrait-card,.portrait-photo,.portrait-location,.portrait-index,.portrait-role{transition:none}}
 
 /* ── MARQUEE ── */
 .marquee{position:relative;padding:28px 0;background:linear-gradient(180deg,transparent,rgba(124,92,255,.03),transparent);border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden;z-index:2}
@@ -649,7 +660,7 @@ html.is-loading, html.is-loading body{overflow:hidden !important;height:100vh}
 .hero h1 .tag-line .it .char{background:linear-gradient(135deg,var(--primary),var(--accent),var(--blue));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 .hero h1 .name-line .word{background:linear-gradient(135deg,#fff 0%,#e9d5ff 60%,#a78bfa 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 .hero h1 .tag-line .it .word{background:linear-gradient(135deg,var(--primary),var(--accent),var(--blue));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-.hero .hero-badge, .hero-sub, .hero-actions, .portrait-wrap, .portrait-card, .portrait-info, #hero-canvas{will-change:transform,opacity,filter}
+.hero .hero-badge, .hero-sub, .hero-actions, .portrait-wrap, .portrait-card, #hero-canvas{will-change:transform,opacity,filter}
 
 
 /* NOTE: no overflow:hidden here — it would break position:sticky */
@@ -998,7 +1009,7 @@ img.nav-logo{border-radius:50%;background:linear-gradient(135deg,var(--primary),
 
 <!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
 <section class="hero" id="hero">
-  <canvas id="hero-canvas"></canvas>
+  <canvas id="hero-canvas" aria-hidden="true"></canvas>
   <div class="container hero-grid">
     <div>
       <h1><span class="name-line">Muhammad Shozab</span><span class="tag-line">crafting digital <span class="it">realms</span>.</span></h1>
@@ -1015,25 +1026,22 @@ img.nav-logo{border-radius:50%;background:linear-gradient(135deg,var(--primary),
         </a>
       </div>
     </div>
-    <div class="portrait-wrap" data-tilt>
+    <div class="portrait-wrap">
       <div class="portrait-card" id="portraitCard">
-        <div class="portrait-deco tl">MS</div>
-        <div class="portrait-deco br">'25</div>
-        <div class="portrait-deco tr">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16"><circle cx="12" cy="12" r="2"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/></svg>
-          <span style="font-size:8px">DEV</span>
+        <div class="portrait-index">01 / MS</div>
+        <div class="portrait-role">Creative<span>developer</span></div>
+        <div class="portrait-frame">
+          <div class="portrait-img">
+            <img src="./dp-Photoroom.png" alt="Muhammad Shozab" class="portrait-photo" id="portraitPhoto" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+            <div class="portrait-placeholder"><span></span></div>
+            <div class="portrait-scan" aria-hidden="true"></div>
+          </div>
         </div>
-        <div class="portrait-img" id="portraitImgFX">
-          <!-- ▼▼▼ REPLACE THE src BELOW WITH YOUR PHOTO PATH/URL ▼▼▼ -->
-          <img src="./dp-Photoroom.png" data-hover="./dp-Photoroom-hover.png" alt="Muhammad Shozab" class="portrait-photo" id="portraitPhoto" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
-          <canvas class="portrait-gl" id="portraitGL" aria-hidden="true"></canvas>
-          <div class="portrait-placeholder"><span></span></div>
+        <div class="portrait-location">
+          <div><strong>Islamabad · PK</strong><span>Based in Islamabad, Pakistan</span></div>
+          <span class="portrait-scroll">Scroll to explore</span>
         </div>
-        <div class="portrait-info">
-          <div class="portrait-info-row"><span>Based in</span><strong>Islamabad, PK</strong></div>
-          <div class="portrait-info-row"><span>Studying at</span><strong>Air University</strong></div>
-          <div class="portrait-info-row"><span>Focus</span><strong>Full-Stack · MERN · SEO</strong></div>
-        </div>
+        <div class="portrait-edge" aria-hidden="true"></div>
       </div>
     </div>
   </div>
@@ -2296,20 +2304,31 @@ window.addEventListener('mousemove', e => {
   if (spotlight) { spotlight.style.left = e.clientX+'px'; spotlight.style.top = e.clientY+'px'; }
 });
 
-/* ════════════════ TILT ════════════════ */
-document.querySelectorAll('[data-tilt]').forEach(wrap=>{
-  wrap.addEventListener('mousemove',e=>{
-    const r=wrap.getBoundingClientRect();
-    const x=(e.clientX-r.left)/r.width, y=(e.clientY-r.top)/r.height;
-    wrap.style.setProperty('--mx',(x*100)+'%'); wrap.style.setProperty('--my',(y*100)+'%');
-    const inner=wrap.querySelector('.portrait-card')||wrap;
-    inner.style.transform=`perspective(1000px) rotateX(${(0.5-y)*18}deg) rotateY(${(x-0.5)*18}deg)`;
+/* ════════════════ HERO PORTRAIT — layered 3D pointer interaction ════════════════ */
+(function(){
+  var card=document.getElementById('portraitCard');
+  if(!card||window.matchMedia('(hover:none) and (pointer:coarse)').matches)return;
+  var frame;
+  function render(){
+    frame=0;
+    card.style.setProperty('--rx',card.dataset.rx+'deg');
+    card.style.setProperty('--ry',card.dataset.ry+'deg');
+    card.style.setProperty('--mx',card.dataset.mx+'%');
+    card.style.setProperty('--my',card.dataset.my+'%');
+  }
+  card.addEventListener('pointermove',function(e){
+    var r=card.getBoundingClientRect();
+    var x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+    card.dataset.rx=((.5-y)*16).toFixed(2);
+    card.dataset.ry=((x-.5)*20).toFixed(2);
+    card.dataset.mx=(x*100).toFixed(1);card.dataset.my=(y*100).toFixed(1);
+    if(!frame)frame=requestAnimationFrame(render);
   });
-  wrap.addEventListener('mouseleave',()=>{
-    const inner=wrap.querySelector('.portrait-card')||wrap;
-    inner.style.transform='';
+  card.addEventListener('pointerleave',function(){
+    card.style.setProperty('--rx','0deg');card.style.setProperty('--ry','0deg');
+    card.style.setProperty('--mx','50%');card.style.setProperty('--my','45%');
   });
-});
+})();
 document.querySelectorAll('.cap-card,.step,.work-item,.tool').forEach(c=>{
   c.addEventListener('mousemove',e=>{
     const r=c.getBoundingClientRect();
@@ -2748,7 +2767,7 @@ window.addEventListener('scroll',()=>{
   function forceShowHero(){
     document.documentElement.classList.remove('is-loading');
     if(introEl){ introEl.style.transition='opacity .5s ease'; introEl.style.opacity='0'; setTimeout(function(){ introEl.style.display='none'; }, 550); }
-    document.querySelectorAll('.hero h1 .name-line, .hero h1 .tag-line, .hero h1 .word, .hero-sub, .hero-actions, .portrait-wrap, .portrait-card, .portrait-info, .portrait-deco, #hero-canvas').forEach(function(el){
+    document.querySelectorAll('.hero h1 .name-line, .hero h1 .tag-line, .hero h1 .word, .hero-sub, .hero-actions, .portrait-wrap, .portrait-card, #hero-canvas').forEach(function(el){
       el.style.opacity='1'; el.style.transform='none'; el.style.filter='none';
     });
   }
@@ -2839,14 +2858,10 @@ window.addEventListener('scroll',()=>{
   var heroCanvas = document.getElementById('hero-canvas');
   var portraitWrap = document.querySelector('.hero .portrait-wrap');
   var portraitCard = document.querySelector('.hero .portrait-card');
-  var portraitInfo = document.querySelector('.hero .portrait-info');
-  var portraitDecos = gsap.utils.toArray('.hero .portrait-deco');
   gsap.set([heroBadge, heroSub, heroActs].filter(Boolean), {y:24, opacity:0});
-  gsap.set(heroCanvas, {opacity:0, scale:1.04, filter:'blur(10px)'});
+  gsap.set(heroCanvas, {opacity:0, scale:1.03, filter:'blur(8px)'});
   gsap.set(portraitWrap, {x:window.innerWidth < 1100 ? 0 : 90, y:window.innerWidth < 1100 ? 34 : 0, rotateY:-18, scale:.9, opacity:0, filter:'blur(16px)', transformOrigin:'50% 50%'});
   gsap.set(portraitCard, {rotateX:8, rotateZ:-2, transformOrigin:'50% 50%'});
-  gsap.set(portraitInfo, {y:22, opacity:0});
-  gsap.set(portraitDecos, {scale:0, opacity:0, rotate:-24, transformOrigin:'50% 50%'});
 
   // INTRO — 3D cuboid stage (inspired by Disney+), no "Loading" text
   var intro   = document.getElementById('msIntro');
@@ -2920,8 +2935,6 @@ window.addEventListener('scroll',()=>{
   },'hero+=0.25');
   tl.to(heroSub, {duration:1.0,y:0,opacity:1,ease:ease},'hero+=0.55');
   tl.to(heroActs,{duration:1.0,y:0,opacity:1,ease:ease},'hero+=0.75');
-  tl.to(portraitInfo, {duration:.9, y:0, opacity:1, ease:ease}, 'hero+=0.72');
-  tl.to(portraitDecos, {duration:.8, scale:1, opacity:1, rotate:0, ease:'back.out(1.7)', stagger:.09}, 'hero+=0.9');
 })();
 
 ;
@@ -2995,154 +3008,7 @@ window.addEventListener('scroll',()=>{
   tick();
 })();
 
-/* ════════════════ HERO PORTRAIT — WebGL ripple/tilt shader ════════════════ */
-(function(){
-  var isCoarse = window.matchMedia('(hover:none) and (pointer:coarse)').matches;
-  var container = document.getElementById('portraitImgFX');
-  var canvas    = document.getElementById('portraitGL');
-  var img       = document.getElementById('portraitPhoto');
-  if (isCoarse || !container || !canvas || !img || typeof THREE === 'undefined' || typeof gsap === 'undefined') return;
 
-  function FigureFX(scene, onReady){
-    this.$image   = img;
-    this.container = container;
-    this.scene    = scene;
-    this.onReady  = onReady;
-    this.loader   = new THREE.TextureLoader();
-    this.sizes    = new THREE.Vector2(0,0);
-    this.mouse    = new THREE.Vector2(0,0);
-    var self = this;
-    this.loader.setCrossOrigin('anonymous');
-    this.image = this.loader.load(this.$image.currentSrc || this.$image.src, function(){ self.ready(); });
-    this.hover = this.loader.load(this.$image.dataset.hover || self.$image.src);
-    this.container.addEventListener('pointerenter', function(){ self.hovering = true; });
-    this.container.addEventListener('pointerleave', function(){ self.hovering = false; self.onLeave(); });
-    window.addEventListener('pointermove', function(e){ if (self.hovering) self.onMove(e); });
-  }
-  FigureFX.prototype.ready = function(){
-    this.getSizes();
-    this.createMesh();
-    this.onReady();
-  };
-  FigureFX.prototype.getSizes = function(){
-    var r = this.container.getBoundingClientRect();
-    this.rect = r;
-    this.sizes.set(r.width, r.height);
-  };
-  FigureFX.prototype.createMesh = function(){
-    this.uniforms = {
-      u_image:     { value: this.image },
-      u_imagehover:{ value: this.hover },
-      u_mouse:     { value: this.mouse },
-      u_time:      { value: 0 },
-      u_res:       { value: new THREE.Vector2(this.sizes.x, this.sizes.y) }
-    };
-    this.geometry = new THREE.PlaneGeometry(1,1,1,1);
-    this.material = new THREE.ShaderMaterial({
-      uniforms: this.uniforms,
-      vertexShader: "varying vec2 v_uv;\nvoid main(){ v_uv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }",
-      fragmentShader:
-        "uniform vec2 u_mouse;\nuniform vec2 u_res;\nuniform sampler2D u_image;\nuniform sampler2D u_imagehover;\nuniform float u_time;\nvarying vec2 v_uv;\n" +
-        "float circle(in vec2 st,in float _radius,in float blurriness){ vec2 dist=st; return 1.-smoothstep(_radius-(_radius*blurriness),_radius+(_radius*blurriness),dot(dist,dist)*4.0); }\n" +
-        "vec3 mod289(vec3 x){ return x-floor(x*(1.0/289.0))*289.0; }\n" +
-        "vec4 mod289(vec4 x){ return x-floor(x*(1.0/289.0))*289.0; }\n" +
-        "vec4 permute(vec4 x){ return mod289(((x*34.0)+1.0)*x); }\n" +
-        "vec4 taylorInvSqrt(vec4 r){ return 1.79284291400159-0.85373472095314*r; }\n" +
-        "float snoise3(vec3 v){\n" +
-        "  const vec2 C=vec2(1.0/6.0,1.0/3.0); const vec4 D=vec4(0.0,0.5,1.0,2.0);\n" +
-        "  vec3 i=floor(v+dot(v,C.yyy)); vec3 x0=v-i+dot(i,C.xxx);\n" +
-        "  vec3 g=step(x0.yzx,x0.xyz); vec3 l=1.0-g; vec3 i1=min(g.xyz,l.zxy); vec3 i2=max(g.xyz,l.zxy);\n" +
-        "  vec3 x1=x0-i1+C.xxx; vec3 x2=x0-i2+C.yyy; vec3 x3=x0-D.yyy;\n" +
-        "  i=mod289(i);\n" +
-        "  vec4 p=permute(permute(permute(i.z+vec4(0.0,i1.z,i2.z,1.0))+i.y+vec4(0.0,i1.y,i2.y,1.0))+i.x+vec4(0.0,i1.x,i2.x,1.0));\n" +
-        "  float n_=0.142857142857; vec3 ns=n_*D.wyz-D.xzx;\n" +
-        "  vec4 j=p-49.0*floor(p*ns.z*ns.z);\n" +
-        "  vec4 x_=floor(j*ns.z); vec4 y_=floor(j-7.0*x_);\n" +
-        "  vec4 x=x_*ns.x+ns.yyyy; vec4 y=y_*ns.x+ns.yyyy; vec4 h=1.0-abs(x)-abs(y);\n" +
-        "  vec4 b0=vec4(x.xy,y.xy); vec4 b1=vec4(x.zw,y.zw);\n" +
-        "  vec4 s0=floor(b0)*2.0+1.0; vec4 s1=floor(b1)*2.0+1.0; vec4 sh=-step(h,vec4(0.0));\n" +
-        "  vec4 a0=b0.xzyw+s0.xzyw*sh.xxyy; vec4 a1=b1.xzyw+s1.xzyw*sh.zzww;\n" +
-        "  vec3 p0=vec3(a0.xy,h.x); vec3 p1=vec3(a0.zw,h.y); vec3 p2=vec3(a1.xy,h.z); vec3 p3=vec3(a1.zw,h.w);\n" +
-        "  vec4 norm=taylorInvSqrt(vec4(dot(p0,p0),dot(p1,p1),dot(p2,p2),dot(p3,p3)));\n" +
-        "  p0*=norm.x; p1*=norm.y; p2*=norm.z; p3*=norm.w;\n" +
-        "  vec4 m=max(0.6-vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)),0.0); m=m*m;\n" +
-        "  return 42.0*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));\n" +
-        "}\n" +
-        "void main(){\n" +
-        "  vec2 res=u_res*PR;\n" +
-        "  vec2 st=gl_FragCoord.xy/res.xy-vec2(0.5);\n" +
-        "  st.y*=u_res.y/u_res.x;\n" +
-        "  vec2 mouse=u_mouse*-0.5;\n" +
-        "  vec2 circlePos=st+mouse;\n" +
-        "  float c=circle(circlePos,0.15,2.)*2.5;\n" +
-        "  float offx=v_uv.x+sin(v_uv.y+u_time*.1);\n" +
-        "  float offy=v_uv.y-u_time*0.1-cos(u_time*.001)*.01;\n" +
-        "  float n=snoise3(vec3(offx,offy,u_time*.1)*8.)-1.;\n" +
-        "  float finalMask=smoothstep(0.4,0.5,n+pow(c,2.));\n" +
-        "  vec4 image=texture2D(u_image,v_uv);\n" +
-        "  vec4 hover=texture2D(u_imagehover,v_uv);\n" +
-        "  vec4 finalImage=mix(image,hover,finalMask);\n" +
-        "  gl_FragColor=finalImage;\n" +
-        "}",
-      defines: { PR: (window.devicePixelRatio||1).toFixed(1) }
-    });
-    this.mesh = new THREE.Mesh(this.geometry, this.material);
-    this.mesh.scale.set(this.sizes.x, this.sizes.y, 1);
-    this.scene.add(this.mesh);
-  };
-  FigureFX.prototype.onMove = function(e){
-    var r = this.rect || this.container.getBoundingClientRect();
-    var x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
-    gsap.to(this.mouse, { duration:0.5, x: x*2-1, y: -y*2+1 });
-    if (this.mesh){
-      gsap.to(this.mesh.rotation, { duration:0.5, x: 0.3*-this.mouse.y, y: this.mouse.x*(Math.PI/6) });
-    }
-  };
-  FigureFX.prototype.onLeave = function(){
-    if (this.mesh){ gsap.to(this.mesh.rotation, { duration:0.6, x:0, y:0, ease:'power2.out' }); }
-    gsap.to(this.mouse, { duration:0.6, x:0, y:0 });
-  };
-  FigureFX.prototype.update = function(){ this.uniforms.u_time.value += 0.01; };
-
-  var Stage = function(){
-    this.container = canvas;
-    this.scene = new THREE.Scene();
-    this.renderer = new THREE.WebGLRenderer({ canvas: this.container, alpha: true, antialias: true });
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
-    var self = this;
-    this.figure = new FigureFX(this.scene, function(){ self.onReady(); });
-    this.resize();
-    window.addEventListener('resize', function(){ self.resize(); });
-  };
-  Stage.prototype.resize = function(){
-    var r = container.getBoundingClientRect();
-    if (!r.width || !r.height) return;
-    this.renderer.setSize(r.width, r.height, false);
-    var fov = (2*Math.atan(r.height/2/800)*180)/Math.PI;
-    this.camera = new THREE.PerspectiveCamera(fov, r.width/r.height, 1, 2000);
-    this.camera.position.set(0,0,800);
-    if (this.figure){
-      this.figure.getSizes();
-      if (this.figure.mesh){
-        this.figure.mesh.scale.set(this.figure.sizes.x, this.figure.sizes.y, 1);
-        this.figure.uniforms.u_res.value.set(this.figure.sizes.x, this.figure.sizes.y);
-      }
-    }
-  };
-  Stage.prototype.onReady = function(){
-    canvas.classList.add('is-ready');
-    img.style.opacity = 0;
-    this.update();
-  };
-  Stage.prototype.update = function(){
-    var self = this;
-    requestAnimationFrame(function(){ self.update(); });
-    if (this.figure) this.figure.update();
-    if (this.camera) this.renderer.render(this.scene, this.camera);
-  };
-
-  try { new Stage(); } catch(err){ /* WebGL unavailable — plain photo stays visible */ }
-})();
 
   </script>
 </body>
